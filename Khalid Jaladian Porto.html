@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Khalid Jaladian — Business Systems &amp; Automation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+
+  :root{
+    --paper:#F7F5F0;
+    --card:#FFFFFF;
+    --ink:#1A1F1C;
+    --ink-soft:#4A4F46;
+    --stone:#8A8578;
+    --line:#DEDACE;
+    --green:#3D6B52;
+    --green-soft:#E7EEE9;
+    --rust:#C4622D;
+    --rust-soft:#F6E6DC;
+    --amber:#9C7A1F;
+    --amber-soft:#F2ECD8;
+    --display: "Space Grotesk", sans-serif;
+    --body: "Inter", sans-serif;
+    --mono: "JetBrains Mono", monospace;
+    --maxw: 1080px;
+  }
+
+  *{margin:0; padding:0; box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:var(--body);
+    font-size:16px;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  a{color:inherit;}
+
+  .wrap{
+    max-width:var(--maxw);
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  /* subtle blueprint grid texture in background */
+  .grid-tex{
+    position:fixed;
+    inset:0;
+    background-image:
+      linear-gradient(rgba(26,31,28,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(26,31,28,0.035) 1px, transparent 1px);
+    background-size: 48px 48px;
+    pointer-events:none;
+    z-index:0;
+  }
+
+  /* ---------------- NAV ---------------- */
+  header.nav{
+    position:sticky;
+    top:0;
+    z-index:50;
+    background:rgba(247,245,240,0.88);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav-inner{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:18px 32px;
+    max-width:var(--maxw);
+    margin:0 auto;
+  }
+  .nav-id{
+    font-family:var(--mono);
+    font-size:13px;
+    letter-spacing:0.02em;
+    color:var(--ink);
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .nav-id .dot{
+    width:7px; height:7px; border-radius:50%;
+    background:var(--green);
+    box-shadow:0 0 0 3px var(--green-soft);
+  }
+  nav.links{
+    display:flex;
+    gap:28px;
+    font-family:var(--mono);
+    font-size:13px;
+  }
+  nav.links a{
+    text-decoration:none;
+    color:var(--ink-soft);
+    border-bottom:1px solid transparent;
+    padding-bottom:2px;
+    transition:color .15s, border-color .15s;
+  }
+  nav.links a:hover{ color:var(--ink); border-color:var(--ink); }
+
+  /* ---------------- HERO ---------------- */
+  .hero{
+    position:relative;
+    z-index:1;
+    padding:88px 0 64px;
+  }
+  .eyebrow{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--green);
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:22px;
+  }
+  .eyebrow::before{
+    content:"";
+    width:18px; height:1px; background:var(--green);
+  }
+  h1{
+    font-family:var(--display);
+    font-weight:700;
+    font-size:clamp(34px, 5vw, 56px);
+    line-height:1.08;
+    letter-spacing:-0.01em;
+    max-width:760px;
+  }
+  h1 .accent{ color:var(--green); }
+  .hero-sub{
+    margin-top:22px;
+    max-width:600px;
+    font-size:18px;
+    color:var(--ink-soft);
+  }
+  .hero-meta{
+    margin-top:32px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px 28px;
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--stone);
+  }
+  .hero-meta a{ color:var(--ink-soft); text-decoration:underline; text-decoration-color:var(--line); }
+
+  /* system trace strip — the signature element */
+  .trace{
+    margin-top:48px;
+    border:1px solid var(--line);
+    background:var(--card);
+    border-radius:10px;
+    padding:22px 26px;
+    overflow-x:auto;
+  }
+  .trace-label{
+    font-family:var(--mono);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.08em;
+    color:var(--stone);
+    margin-bottom:16px;
+  }
+  .trace-flow{
+    display:flex;
+    align-items:center;
+    gap:0;
+    font-family:var(--mono);
+    font-size:13px;
+    white-space:nowrap;
+    min-width:max-content;
+  }
+  .trace-node{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:9px 14px;
+    border:1px solid var(--line);
+    border-radius:7px;
+    background:var(--paper);
+  }
+  .trace-node .led{ width:6px; height:6px; border-radius:50%; flex-shrink:0; }
+  .trace-node.done .led{ background:var(--stone); }
+  .trace-node.active .led{ background:var(--green); box-shadow:0 0 0 3px var(--green-soft); }
+  .trace-node.warn .led{ background:var(--rust); box-shadow:0 0 0 3px var(--rust-soft); }
+  .trace-arrow{
+    color:var(--stone);
+    padding:0 10px;
+    font-size:14px;
+  }
+
+  /* ---------------- SECTION SHELLS ---------------- */
+  section{
+    position:relative;
+    z-index:1;
+    padding:64px 0;
+    border-top:1px solid var(--line);
+  }
+  .section-head{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:16px;
+    margin-bottom:42px;
+    flex-wrap:wrap;
+  }
+  .section-num{
+    font-family:var(--mono);
+    font-size:13px;
+    color:var(--stone);
+  }
+  h2{
+    font-family:var(--display);
+    font-weight:600;
+    font-size:clamp(24px, 3vw, 32px);
+    letter-spacing:-0.01em;
+  }
+  .section-intro{
+    max-width:620px;
+    color:var(--ink-soft);
+    margin-top:10px;
+  }
+
+  /* ---------------- PROJECT MODULES ---------------- */
+  .module{
+    background:var(--card);
+    border:1px solid var(--line);
+    border-radius:14px;
+    margin-bottom:28px;
+    overflow:hidden;
+  }
+  .module-head{
+    padding:26px 30px 22px;
+    border-bottom:1px solid var(--line);
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:20px;
+    flex-wrap:wrap;
+  }
+  .module-tag{
+    font-family:var(--mono);
+    font-size:11.5px;
+    text-transform:uppercase;
+    letter-spacing:0.07em;
+    color:var(--green);
+    background:var(--green-soft);
+    padding:4px 10px;
+    border-radius:5px;
+    display:inline-block;
+    margin-bottom:10px;
+  }
+  .module h3{
+    font-family:var(--display);
+    font-weight:600;
+    font-size:23px;
+  }
+  .module-role{
+    font-size:14.5px;
+    color:var(--stone);
+    margin-top:4px;
+  }
+  .module-stats{
+    display:flex;
+    gap:26px;
+    flex-wrap:wrap;
+  }
+  .stat{ text-align:right; }
+  .stat .num{
+    font-family:var(--mono);
+    font-weight:600;
+    font-size:20px;
+    color:var(--ink);
+    display:block;
+  }
+  .stat .lbl{
+    font-family:var(--mono);
+    font-size:10.5px;
+    color:var(--stone);
+    text-transform:uppercase;
+    letter-spacing:0.04em;
+  }
+
+  .module-body{
+    padding:26px 30px 30px;
+    display:grid;
+    grid-template-columns:1.1fr 0.9fr;
+    gap:34px;
+  }
+  @media (max-width: 760px){
+    .module-body{ grid-template-columns:1fr; }
+    .module-stats{ width:100%; justify-content:flex-start; gap:22px; }
+  }
+
+  .module-body p{ color:var(--ink-soft); margin-bottom:14px; }
+  .module-body p:last-child{ margin-bottom:0; }
+
+  .feat-list{
+    list-style:none;
+  }
+  .feat-list li{
+    position:relative;
+    padding-left:20px;
+    margin-bottom:10px;
+    font-size:14.5px;
+    color:var(--ink-soft);
+    line-height:1.55;
+  }
+  .feat-list li::before{
+    content:"›";
+    position:absolute;
+    left:0;
+    color:var(--green);
+    font-family:var(--mono);
+    font-weight:600;
+  }
+  .feat-list strong{ color:var(--ink); font-weight:600; }
+
+  .col-title{
+    font-family:var(--mono);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.07em;
+    color:var(--stone);
+    margin-bottom:14px;
+  }
+
+  .tech-chips{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+    margin-top:18px;
+  }
+  .chip{
+    font-family:var(--mono);
+    font-size:12px;
+    padding:5px 10px;
+    border:1px solid var(--line);
+    border-radius:6px;
+    color:var(--ink-soft);
+    background:var(--paper);
+  }
+
+  /* status pills inside the case-study text */
+  .pill{
+    font-family:var(--mono);
+    font-size:11.5px;
+    padding:2px 8px;
+    border-radius:5px;
+    font-weight:600;
+  }
+  .pill.green{ background:var(--green-soft); color:var(--green); }
+  .pill.rust{ background:var(--rust-soft); color:var(--rust); }
+  .pill.amber{ background:var(--amber-soft); color:var(--amber); }
+
+  /* artifact links row */
+  .artifacts{
+    margin-top:20px;
+    padding-top:18px;
+    border-top:1px dashed var(--line);
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  .artifact-link{
+    font-family:var(--mono);
+    font-size:12.5px;
+    color:var(--ink-soft);
+    border:1px solid var(--line);
+    border-radius:6px;
+    padding:6px 11px;
+    text-decoration:none;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    transition:border-color .15s, color .15s;
+  }
+  .artifact-link:hover{ border-color:var(--ink); color:var(--ink); }
+  .artifact-link::before{ content:"↳"; color:var(--stone); }
+
+  /* ---------------- CODE PEEK ---------------- */
+  .codepeek{
+    background:#16201A;
+    border-radius:10px;
+    overflow:hidden;
+    border:1px solid #28352B;
+  }
+  .codepeek-bar{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    padding:10px 14px;
+    background:#101810;
+    font-family:var(--mono);
+    font-size:11.5px;
+    color:#8FA796;
+    border-bottom:1px solid #28352B;
+  }
+  .codepeek-bar .ball{ width:9px;height:9px;border-radius:50%; }
+  .codepeek pre{
+    margin:0;
+    padding:16px 18px;
+    font-family:var(--mono);
+    font-size:12.3px;
+    line-height:1.65;
+    color:#D7E4D2;
+    overflow-x:auto;
+  }
+  .codepeek .c1{ color:#7FA88B; } /* comment */
+  .codepeek .kw{ color:#E0A45E; } /* keyword */
+  .codepeek .fn{ color:#9FC4E8; } /* function/var */
+  .codepeek .str{ color:#D4C088; } /* string */
+
+  /* ---------------- SKILLS GRID ---------------- */
+  .skillgrid{
+    display:grid;
+    grid-template-columns:repeat(4, 1fr);
+    gap:1px;
+    background:var(--line);
+    border:1px solid var(--line);
+    border-radius:12px;
+    overflow:hidden;
+  }
+  @media (max-width: 760px){ .skillgrid{ grid-template-columns:repeat(2, 1fr); } }
+  .skillcell{
+    background:var(--card);
+    padding:24px 22px;
+  }
+  .skillcell .cat{
+    font-family:var(--mono);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.06em;
+    color:var(--green);
+    margin-bottom:12px;
+  }
+  .skillcell ul{ list-style:none; }
+  .skillcell li{
+    font-size:14px;
+    color:var(--ink-soft);
+    margin-bottom:7px;
+  }
+
+  /* ---------------- TIMELINE ---------------- */
+  .timeline{ position:relative; padding-left:28px; }
+  .timeline::before{
+    content:"";
+    position:absolute;
+    left:5px; top:6px; bottom:6px;
+    width:1px;
+    background:var(--line);
+  }
+  .trow{ position:relative; padding-bottom:30px; }
+  .trow:last-child{ padding-bottom:0; }
+  .trow::before{
+    content:"";
+    position:absolute;
+    left:-28px; top:5px;
+    width:11px; height:11px;
+    border-radius:50%;
+    background:var(--paper);
+    border:2px solid var(--green);
+  }
+  .trow.alt::before{ border-color:var(--stone); }
+  .trow .when{
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--stone);
+    margin-bottom:4px;
+  }
+  .trow .role{ font-weight:600; font-size:16px; }
+  .trow .org{ color:var(--ink-soft); font-size:14.5px; }
+
+  /* ---------------- FOOTER / CTA ---------------- */
+  footer{
+    padding:60px 0 80px;
+    border-top:1px solid var(--line);
+    position:relative;
+    z-index:1;
+  }
+  .cta-box{
+    background:var(--ink);
+    color:var(--paper);
+    border-radius:16px;
+    padding:48px 44px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:24px;
+    flex-wrap:wrap;
+  }
+  .cta-box h3{
+    font-family:var(--display);
+    font-size:26px;
+    font-weight:600;
+    margin-bottom:8px;
+  }
+  .cta-box p{ color:#B9C2BB; max-width:420px; font-size:14.5px; }
+  .cta-links{ display:flex; gap:14px; flex-wrap:wrap; }
+  .cta-btn{
+    font-family:var(--mono);
+    font-size:13px;
+    padding:11px 18px;
+    border-radius:8px;
+    text-decoration:none;
+    border:1px solid #3A453E;
+  }
+  .cta-btn.primary{ background:var(--green); color:#fff; border-color:var(--green); }
+  .cta-btn.ghost{ color:var(--paper); }
+  footer .fineprint{
+    text-align:center;
+    margin-top:30px;
+    font-family:var(--mono);
+    font-size:12px;
+    color:var(--stone);
+  }
+
+  @media (max-width: 600px){
+    .wrap{ padding:0 20px; }
+    .nav-inner{ padding:16px 20px; }
+    nav.links{ display:none; }
+    .module-head, .module-body{ padding-left:20px; padding-right:20px; }
+    .cta-box{ padding:32px 26px; }
+  }
+
+</style>
+</head>
+<body>
+
+<div class="grid-tex"></div>
+
+<header class="nav">
+  <div class="nav-inner">
+    <div class="nav-id"><span class="dot"></span>KHALID_JALADIAN.SYS</div>
+    <nav class="links">
+      <a href="#systems">Systems</a>
+      <a href="#stack">Stack</a>
+      <a href="#path">Path</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero" style="border-top:none;">
+    <div class="eyebrow">Business Systems &amp; Automation</div>
+    <h1>I turn messy spreadsheets into <span class="accent">systems that run the business.</span></h1>
+    <p class="hero-sub">
+      Three companies, three operational backbones — built end-to-end on Google Sheets
+      and Apps Script: production ERP, finance &amp; invoicing, and demand forecasting.
+      No off-the-shelf software. Just logic, automation, and a lot of <code>onEdit()</code>.
+    </p>
+    <div class="hero-meta">
+      <span>Jakarta, Indonesia</span>
+      <a href="mailto:khalid.g.clear@gmail.com">khalid.g.clear@gmail.com</a>
+      <a href="tel:+628119119288">+62 811 9119 288</a>
+      <a href="#">LinkedIn ↗</a>
+    </div>
+
+    <div class="trace">
+      <div class="trace-label">Live trace — Star N Hero / RENCANA_PRODUKSI_BARANG_JADI</div>
+      <div class="trace-flow">
+        <div class="trace-node done"><span class="led"></span>DRAFT</div>
+        <span class="trace-arrow">→</span>
+        <div class="trace-node done"><span class="led"></span>CEK MATERIAL</div>
+        <span class="trace-arrow">→</span>
+        <div class="trace-node active"><span class="led"></span>DALAM PROSES</div>
+        <span class="trace-arrow">→</span>
+        <div class="trace-node"><span class="led" style="background:var(--line)"></span>SELESAI</div>
+        <span class="trace-arrow">→</span>
+        <div class="trace-node"><span class="led" style="background:var(--line)"></span>POSTED</div>
+        <span class="trace-arrow">⇒</span>
+        <div class="trace-node warn"><span class="led"></span>STOK RENDAH</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SYSTEMS ============ -->
+  <section id="systems">
+    <div class="section-head">
+      <div>
+        <div class="section-num">01 — Case studies</div>
+        <h2>Three production systems, three companies</h2>
+        <p class="section-intro">
+          Each one started as a spreadsheet people were already using, and outgrew
+          its limits. The work was making it behave like real software — validated
+          inputs, automatic state transitions, and a single source of truth — without
+          asking anyone to leave Google Sheets.
+        </p>
+      </div>
+    </div>
+
+    <!-- MODULE 1: STAR N HERO -->
+    <div class="module">
+      <div class="module-head">
+        <div>
+          <span class="module-tag">Production ERP + Forecasting</span>
+          <h3>Star N Hero</h3>
+          <div class="module-role">Activewear &amp; apparel retail — built the production, inventory, and demand system from scratch</div>
+        </div>
+        <div class="module-stats">
+          <div class="stat"><span class="num">17</span><span class="lbl">Linked sheets</span></div>
+          <div class="stat"><span class="num">129</span><span class="lbl">SKUs tracked</span></div>
+          <div class="stat"><span class="num">Rp178.9M</span><span class="lbl">Revenue tracked</span></div>
+        </div>
+      </div>
+      <div class="module-body">
+        <div>
+          <div class="col-title">What it does</div>
+          <p>
+            A full production-to-inventory loop for a fashion brand selling across Shopee,
+            TikTok, and live events. Every finished-goods SKU is backed by a Bill of Materials;
+            every production run checks real material availability before it's allowed to start.
+          </p>
+          <ul class="feat-list">
+            <li><strong>BOM-driven material engine</strong> — each SKU resolves its raw-material consumption automatically; running a production plan recalculates stock, reservations, and a live <span class="pill green">AMAN</span> / <span class="pill amber">STOK RENDAH</span> / <span class="pill rust">KURANG</span> status before anything is approved.</li>
+            <li><strong>Guarded production lifecycle</strong> — DRAFT → DALAM PROSES → SELESAI → POSTED, enforced through <code>onEdit()</code> triggers so status can't be hand-edited once material is reserved or stock has been posted.</li>
+            <li><strong>Custom sidebar app</strong> — an HTML/JS sidebar (talking to Apps Script via <code>google.script.run</code>) for creating, editing, and copying BOMs without ever touching the raw data sheet.</li>
+            <li><strong>Forecasting &amp; MRP layer</strong> — a separate workbook (17 sheets) computes monthly demand rate per SKU, recommends production quantities, and projects inventory health (dead stock, overstock, capital locked) feeding a live Looker Studio dashboard.</li>
+          </ul>
+          <div class="artifacts">
+            <a class="artifact-link" href="#systems">Dashboard PDF</a>
+            <a class="artifact-link" href="#systems">ERP workbook</a>
+            <a class="artifact-link" href="#systems">code.gs</a>
+            <a class="artifact-link" href="#systems">BomSidebar.html</a>
+          </div>
+        </div>
+        <div>
+          <div class="codepeek">
+            <div class="codepeek-bar"><span class="ball" style="background:#5C7A4E"></span><span class="ball" style="background:#C49A4A"></span><span class="ball" style="background:#A65C4A"></span>refreshMaterialCheck()</div>
+            <pre><span class="c1">// MASTER_BOM × MASTER_MATERIAL → live status</span>
+<span class="kw">if</span> (currentStock < requiredQty) {
+  isInsufficient = <span class="kw">true</span>;
+} <span class="kw">else if</span> (remaining < minimumStock) {
+  isLowStock = <span class="kw">true</span>;
+}
+result = isInsufficient ? <span class="str">"KURANG"</span>
+       : isLowStock      ? <span class="str">"STOK RENDAH"</span>
+                          : <span class="str">"AMAN"</span>;</pre>
+          </div>
+          <div class="tech-chips">
+            <span class="chip">Apps Script</span>
+            <span class="chip">HtmlService</span>
+            <span class="chip">onEdit triggers</span>
+            <span class="chip">Looker Studio</span>
+            <span class="chip">MRP logic</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULE 2: SOULMATE BEDSHEET -->
+    <div class="module">
+      <div class="module-head">
+        <div>
+          <span class="module-tag">Production Workflow Tracker</span>
+          <h3>Soulmate Bedsheet</h3>
+          <div class="module-role">Bedsheet manufacturer — order-to-delivery tracking across five production divisions</div>
+        </div>
+        <div class="module-stats">
+          <div class="stat"><span class="num">5</span><span class="lbl">Stages tracked</span></div>
+          <div class="stat"><span class="num">Auto</span><span class="lbl">Order ID + pricing</span></div>
+          <div class="stat"><span class="num">2</span><span class="lbl">Linked spreadsheets</span></div>
+        </div>
+      </div>
+      <div class="module-body">
+        <div>
+          <div class="col-title">What it does</div>
+          <p>
+            Every order moves through <strong>Potong → Jahit → Packing → Kirim → (Konversi)</strong> —
+            and each division only ever sees its own queue, while the master Orders sheet
+            stays the single source of truth.
+          </p>
+          <ul class="feat-list">
+            <li><strong>Auto-generated order IDs</strong> with a Roman-numeral month code (e.g. <code>SOULMATE/VI/26/014</code>) issued the moment a customer and product are entered — no manual numbering, no duplicates.</li>
+            <li><strong>Division-scoped views</strong> — Potong, Jahit, Packing, Kirim, and Konversi each get a filtered, auto-refreshed sheet; entering a PIC there writes the timestamp back to Orders and advances the step, with stock-availability branching the flow straight to delivery when no production is needed.</li>
+            <li><strong>Cross-sheet reconciliation</strong> — a scheduled job (<code>buildDivisionData</code>) merges Orders with an external "Master Data" spreadsheet, deduplicates by Order ID, and feeds a Looker Studio–ready table with per-division value attribution.</li>
+            <li><strong>Self-correcting edits</strong> — clearing a PIC cascades forward, wiping every downstream timestamp and PIC so the step always reflects reality, not a stale checkbox.</li>
+          </ul>
+          <div class="artifacts">
+            <a class="artifact-link" href="#systems">Orders workbook</a>
+            <a class="artifact-link" href="#systems">code.gs</a>
+          </div>
+        </div>
+        <div>
+          <div class="codepeek">
+            <div class="codepeek-bar"><span class="ball" style="background:#5C7A4E"></span><span class="ball" style="background:#C49A4A"></span><span class="ball" style="background:#A65C4A"></span>nextOrderID()</div>
+            <pre><span class="c1">// SOULMATE/{month-roman}/{yy}/{seq}</span>
+<span class="kw">const</span> re = <span class="kw">new</span> RegExp(
+  <span class="str">`^SOULMATE/${roman}/${yy}/(\\d+)$`</span>
+);
+ids.forEach(<span class="fn">id</span> => {
+  <span class="kw">const</span> m = id.match(re);
+  <span class="kw">if</span> (m) max = Math.max(max, Number(m[<span class="str">1</span>]));
+});</pre>
+          </div>
+          <div class="tech-chips">
+            <span class="chip">Apps Script</span>
+            <span class="chip">Multi-sheet sync</span>
+            <span class="chip">onEdit cascades</span>
+            <span class="chip">Looker Studio</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULE 3: VINDES CORP -->
+    <div class="module">
+      <div class="module-head">
+        <div>
+          <span class="module-tag">Finance &amp; Invoicing System</span>
+          <h3>Vindes Corp — Finance Division</h3>
+          <div class="module-role">Talent &amp; media agency — project intake to invoice to payment, with PPN tax logic built in</div>
+        </div>
+        <div class="module-stats">
+          <div class="stat"><span class="num">2</span><span class="lbl">Business units</span></div>
+          <div class="stat"><span class="num">4</span><span class="lbl">Custom sidebars</span></div>
+          <div class="stat"><span class="num">11%</span><span class="lbl">PPN auto-calculated</span></div>
+        </div>
+      </div>
+      <div class="module-body">
+        <div>
+          <div class="col-title">What it does</div>
+          <p>
+            A relational system across six linked sheets that takes a deal from client
+            intake through approval, invoicing, and payment reconciliation — for two
+            business units (Vitamin, Vakansi) with different document and folder rules.
+          </p>
+          <ul class="feat-list">
+            <li><strong>Client deduplication engine</strong> — normalizes company names (strips "PT", punctuation, casing) to detect existing clients and auto-assign a recurring "Anchor" ID instead of creating duplicates.</li>
+            <li><strong>Tax-aware invoice math</strong> — handles three deal structures (<code>NON GROSS UP</code>, <code>GROSS UP</code>, <code>ALL IN</code>) and derives DPP, PPN, and Grand Total correctly for each, including official invoice numbering in Indonesian fiscal format (<code>VTMND/VI/2026/003</code>).</li>
+            <li><strong>Approval-gated workflow</strong> — a project can't be invoiced until it's <code>Approved</code>; an invoice can't be paid past its outstanding balance without an explicit override prompt — both enforced in the sidebar logic, not just by convention.</li>
+            <li><strong>Payment term rebuilding</strong> — cancelling or adding a payment automatically rebuilds the invoice's Term 1–5 amount/date slots from the live Payment Tracker, so the invoice sheet never drifts from the ledger.</li>
+            <li><strong>Drive + Gmail integration</strong> — uploaded NPWP/SPK/CL/quotation files are routed to business-unit-specific Drive folders and renamed by convention; approvals, rejections, and invoice releases trigger templated emails automatically.</li>
+          </ul>
+          <div class="artifacts">
+            <a class="artifact-link" href="#systems">Tracker workbook</a>
+            <a class="artifact-link" href="#systems">code.gs</a>
+            <a class="artifact-link" href="#systems">Sidebar.html</a>
+            <a class="artifact-link" href="#systems">InvoiceSidebar.html</a>
+            <a class="artifact-link" href="#systems">PaymentSidebar.html</a>
+          </div>
+        </div>
+        <div>
+          <div class="codepeek">
+            <div class="codepeek-bar"><span class="ball" style="background:#5C7A4E"></span><span class="ball" style="background:#C49A4A"></span><span class="ball" style="background:#A65C4A"></span>createInvoiceRow()</div>
+            <pre><span class="c1">// GROSS UP deal → derive DPP, PPN, Grand Total</span>
+<span class="kw">if</span> (data.dealBasedOn === <span class="str">"GROSS UP"</span>) {
+  dpp        = round2(dealAmount / <span class="str">0.98</span>);
+  ppnOnly    = round2(dpp * <span class="str">0.11</span>);
+  grandTotal = round2(dpp + ppnOnly);
+}
+row[headers[<span class="str">"Official Invoice Number"</span>]] =
+  generateOfficialInvoiceNumber(unit);</pre>
+          </div>
+          <div class="tech-chips">
+            <span class="chip">Apps Script</span>
+            <span class="chip">GmailApp</span>
+            <span class="chip">DriveApp</span>
+            <span class="chip">Relational data model</span>
+            <span class="chip">Tax/finance logic</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ STACK ============ -->
+  <section id="stack">
+    <div class="section-head">
+      <div>
+        <div class="section-num">02 — Toolkit</div>
+        <h2>What's actually under the hood</h2>
+      </div>
+    </div>
+    <div class="skillgrid">
+      <div class="skillcell">
+        <div class="cat">Automation</div>
+        <ul>
+          <li>Google Apps Script</li>
+          <li>onEdit / onOpen triggers</li>
+          <li>Custom HTML sidebars</li>
+          <li>GmailApp / DriveApp</li>
+        </ul>
+      </div>
+      <div class="skillcell">
+        <div class="cat">Systems logic</div>
+        <ul>
+          <li>BOM / MRP modeling</li>
+          <li>State-machine workflows</li>
+          <li>Relational data design</li>
+          <li>Validation &amp; guardrails</li>
+        </ul>
+      </div>
+      <div class="skillcell">
+        <div class="cat">Analytics</div>
+        <ul>
+          <li>Google Looker Studio</li>
+          <li>Forecasting (demand rate)</li>
+          <li>Inventory health scoring</li>
+          <li>SQL (intermediate)</li>
+        </ul>
+      </div>
+      <div class="skillcell">
+        <div class="cat">Business</div>
+        <ul>
+          <li>Process optimization</li>
+          <li>ROI &amp; forecasting</li>
+          <li>Stakeholder management</li>
+          <li>Indonesian tax/invoice rules</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PATH ============ -->
+  <section id="path">
+    <div class="section-head">
+      <div>
+        <div class="section-num">03 — Path</div>
+        <h2>How I got to systems work</h2>
+        <p class="section-intro">Started in audio production, moved into data analytics, and ended up building the operational backbone for three companies at once — because the spreadsheets needed someone who'd actually go fix the formula.</p>
+      </div>
+    </div>
+    <div class="timeline">
+      <div class="trow">
+        <div class="when">Jan 2024 — Present</div>
+        <div class="role">Talent Manager → Systems &amp; Automation</div>
+        <div class="org">Vindes Corp — built the cross-divisional dashboard suite and the full finance/invoicing system above</div>
+      </div>
+      <div class="trow">
+        <div class="when">Jan 2023 — Present</div>
+        <div class="role">Data &amp; Business Analyst</div>
+        <div class="org">Soulmate Bedsheet — designed the production workflow tracker and Looker Studio reporting</div>
+      </div>
+      <div class="trow alt">
+        <div class="when">2023</div>
+        <div class="role">Fullstack Data Analytics Program</div>
+        <div class="org">RevoU — 13-week certified program</div>
+      </div>
+      <div class="trow alt">
+        <div class="when">Aug 2022 — Dec 2022</div>
+        <div class="role">Associate Audio Engineer</div>
+        <div class="org">Tokopedia — live streaming &amp; multi-platform audio for Tokopedia Play</div>
+      </div>
+      <div class="trow alt">
+        <div class="when">Jun 2021 — Aug 2022</div>
+        <div class="role">Head of Audio</div>
+        <div class="org">Indomusikgram — team &amp; project delivery supervision</div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="cta-box">
+      <div>
+        <h3>Got a spreadsheet that's outgrown itself?</h3>
+        <p>That's usually where this kind of work starts. Happy to talk through what you're trying to fix.</p>
+      </div>
+      <div class="cta-links">
+        <a class="cta-btn primary" href="mailto:khalid.g.clear@gmail.com">Email me ↗</a>
+        <a class="cta-btn ghost" href="tel:+628119119288">+62 811 9119 288</a>
+      </div>
+    </div>
+    <div class="fineprint">KHALID JALADIAN — JAKARTA, INDONESIA — BUILT WITH GOOGLE APPS SCRIPT &amp; A LOT OF PATIENCE</div>
+  </div>
+</footer>
+
+</body>
+</html>
