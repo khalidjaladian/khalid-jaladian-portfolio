@@ -387,6 +387,31 @@
   .artifact-link:hover{ border-color:var(--ink); color:var(--ink); }
   .artifact-link::before{ content:"↳"; color:var(--stone); }
 
+  /* ---------------- SUBMODULE (nested case-study block) ---------------- */
+  .submodule{
+    margin-top:24px;
+    padding-top:24px;
+    border-top:1px dashed var(--line);
+  }
+  .submodule-tag{
+    font-family:var(--mono);
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.07em;
+    color:var(--amber);
+    background:var(--amber-soft);
+    padding:3px 9px;
+    border-radius:5px;
+    display:inline-block;
+    margin-bottom:10px;
+  }
+  .submodule h4{
+    font-family:var(--display);
+    font-weight:600;
+    font-size:17px;
+    margin-bottom:8px;
+  }
+
   /* ---------------- CODE PEEK ---------------- */
   .codepeek{
     background:#16201A;
@@ -556,9 +581,10 @@
     <div class="eyebrow">Business Systems &amp; Automation</div>
     <h1>I turn messy spreadsheets into <span class="accent">systems that run the business.</span></h1>
     <p class="hero-sub">
-      Three companies, three operational backbones — built end-to-end on Google Sheets
-      and Apps Script: production ERP, finance &amp; invoicing, and demand forecasting.
-      No off-the-shelf software. Just logic, automation, and a lot of <code>onEdit()</code>.
+      Three companies, one operator — built end-to-end on Google Sheets and Apps
+      Script: production systems, finance infrastructure, and full reporting
+      architecture across YouTube, Instagram, TikTok, and revenue. No off-the-shelf
+      software. Just logic, automation, and a lot of <code>onEdit()</code>.
     </p>
     <div class="hero-meta">
       <span>Jakarta, Indonesia</span>
@@ -723,23 +749,262 @@ ids.forEach(<span class="fn">id</span> => {
       </div>
     </div>
 
-    <!-- MODULE 3: VINDES CORP -->
+    <!-- ============ VINDES CORP GROUP ============ -->
+    <div style="margin-bottom:22px; padding-top:8px;">
+      <span class="module-tag">Business Operations &amp; Reporting Infrastructure</span>
+      <h3 style="font-family:var(--display); font-weight:600; font-size:25px; margin-top:2px;">Vindes Corp — 6 systems, one reporting architecture</h3>
+      <p style="color:var(--ink-soft); font-size:15px; max-width:680px; margin-top:8px;">
+        Hired as a Talent Manager. Ended up owning the entire reporting and finance
+        stack: I scoped what each business unit actually needed to track, designed the
+        data models in Sheets, automated the parts that shouldn't be manual, and wired
+        every workbook into a live Looker Studio dashboard suite — six systems below,
+        all built and maintained by one person.
+      </p>
+      <div class="module-stats" style="margin-top:18px; justify-content:flex-start;">
+        <div class="stat"><span class="num">6</span><span class="lbl">Systems built</span></div>
+        <div class="stat"><span class="num">4</span><span class="lbl">Business units</span></div>
+        <div class="stat"><span class="num">Rp40.5B</span><span class="lbl">2026 revenue target tracked</span></div>
+        <div class="stat"><span class="num">1.5M+</span><span class="lbl">IG/TikTok followers reported on</span></div>
+      </div>
+    </div>
+
+    <!-- MODULE 3a: DASHBOARD ARCHITECTURE & STRATEGY -->
     <div class="module">
       <div class="module-head">
         <div>
-          <span class="module-tag">Business Operations & Reporting Infrastructure</span>
-          <h3>Vindes Corp</h3>
-            <div class="module-role">
-              Hired as a Talent Manager. Ended up building the operational systems,
-              reporting infrastructure, dashboards, and automation layer used across
-              4 business units.
-            </div>
-          </div>
-        <div class="module-stats">
-          <div class="stat"><span class="num">4</span><span class="lbl">Business Units</span></div>
-          <div class="stat"><span class="num">Rp39B+</span><span class="lbl">Revenue Monitored</span></div>
-          <div class="stat"><span class="num">4</span><span class="lbl">Reporting Systems</span></div>
+          <span class="module-tag">Vindes Corp · Dashboard Architecture</span>
+          <h3>Reporting System Design</h3>
+          <div class="module-role">The layer underneath all five dashboards below — deciding what gets measured, how it's modeled, and how it stays current</div>
         </div>
+        <div class="module-stats">
+          <div class="stat"><span class="num">5</span><span class="lbl">Dashboards designed</span></div>
+          <div class="stat"><span class="num">10+</span><span class="lbl">Source workbooks</span></div>
+          <div class="stat"><span class="num">1</span><span class="lbl">Person, end-to-end</span></div>
+        </div>
+      </div>
+      <div class="module-body">
+        <div>
+          <div class="col-title">What it does</div>
+          <p>
+            None of Vindes' dashboards started as a dashboard — they started as a question
+            ("which programs are actually hitting KPI?", "who hasn't paid us?") that no
+            spreadsheet could answer yet. The recurring job across all five was the same:
+            define the metric, build the data model that can produce it reliably, automate
+            the parts a human shouldn't have to repeat, then wire it into Looker Studio.
+          </p>
+          <ul class="feat-list">
+            <li><strong>Consistent KPI framework</strong> — every content dashboard (YouTube, Instagram, TikTok) tracks the same shape of metric: a per-post/per-video "KPI Met" boolean on Views/Impressions and Likes, rolled up into a KPI Success Rate per program/category, so leadership can compare a YouTube show against an Instagram pillar on the same terms.</li>
+            <li><strong>Database-first, dashboard-second</strong> — each Looker Studio view sits on top of a purpose-built Google Sheet (Program Performance Database, Master Dataset Digital, Sales/Revenue Database, VtmnD Database) rather than a raw export, so filters like Program, Brand, Category, and Date Range all resolve against clean, deduplicated tables.</li>
+            <li><strong>Built for the questions that actually get asked</strong> — Revenue dashboards break by Brand, Program, and Quarter with Target vs. Actual built in; content dashboards break by Content Pillar/Category with engagement-rate-by-follower vs. by-impressions side by side, because "did it perform" means something different depending on who's asking.</li>
+            <li><strong>Maintained solo</strong> — from the Apps Script automations to the sheet formulas to the Looker Studio charts themselves, the full stack is designed, built, and kept running by one person across all four business units.</li>
+          </ul>
+        </div>
+        <div>
+          <div class="codepeek">
+            <div class="codepeek-bar"><span class="ball" style="background:#5C7A4E"></span><span class="ball" style="background:#C49A4A"></span><span class="ball" style="background:#A65C4A"></span>design principle</div>
+            <pre><span class="c1">// same KPI shape across every content dashboard</span>
+<span class="fn">kpiMet</span> = viewsOrImpressions_met
+         && likes_met;
+
+<span class="fn">kpiSuccessRate</span> = bothKpiMet / totalPosts;
+
+<span class="c1">// → comparable across YouTube, IG, TikTok</span>
+<span class="c1">// → rolled up by Program, Category, Quarter</span></pre>
+          </div>
+          <div class="tech-chips">
+            <span class="chip">Data modeling</span>
+            <span class="chip">Looker Studio</span>
+            <span class="chip">Cross-platform KPI design</span>
+            <span class="chip">Apps Script</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULE 3b: PROGRAM PERFORMANCE (YOUTUBE) -->
+    <div class="module">
+      <div class="module-head">
+        <div>
+          <span class="module-tag">Vindes Corp · Program Performance</span>
+          <h3>YouTube Program Database + Automation</h3>
+          <div class="module-role">6 shows (Tadaaa!!, Sepik Bola, DBB, Bervakansi, Vixtape, NJO) — one database, daily-synced</div>
+        </div>
+        <div class="module-stats">
+          <div class="stat"><span class="num">6.3M</span><span class="lbl">Views tracked (Q2 '26)</span></div>
+          <div class="stat"><span class="num">14.29%</span><span class="lbl">KPI success rate</span></div>
+          <div class="stat"><span class="num">Daily</span><span class="lbl">Auto-synced</span></div>
+        </div>
+      </div>
+      <div class="module-body">
+        <div>
+          <div class="col-title">What it does</div>
+          <p>
+            A Google Sheet database that holds every video across all six shows, with
+            Apps Script keeping the YouTube-side numbers current automatically and a
+            Looker Studio dashboard sitting on top for Overview, Time Series, and a
+            KPI-met view per video.
+          </p>
+          <ul class="feat-list">
+            <li><strong>Per-video stat sync</strong> — pulls title, upload date, view count, like count, and comment count from the YouTube Data API for every video URL logged across all six show sheets, matched by video ID parsed from the URL (handles Shorts and Live links too).</li>
+            <li><strong>Rolling view-count snapshots</strong> — walks the <code>VC D+1 → VC D+30</code> column range and writes each day's view count into the next empty slot, building a day-by-day growth curve per video without manual re-entry, while always keeping D+30 current.</li>
+            <li><strong>Daily subscriber tracker</strong> — a separate scheduled job resolves the channel ID from any logged video, queries the channel's current subscriber count, and appends one row per day to a dedicated <code>Subscriber</code> sheet — guarded so it never double-logs the same day.</li>
+            <li><strong>KPI-met dashboard view</strong> — every video gets a pass/fail against both a Views and a Likes target; the dashboard rolls that up into Both-KPI-Met counts, a success-rate trend line, and a per-show breakdown (e.g. Tadaaa!! vs. Sepik Bola) so underperforming formats are visible at a glance.</li>
+          </ul>
+          <div class="artifacts">
+            <a class="artifact-link" href="#systems">Program Dashboard PDF</a>
+            <a class="artifact-link" href="#systems">Program Performance Database</a>
+            <a class="artifact-link" href="#systems">code.gs</a>
+            <a class="artifact-link" href="#systems">Subscriber.gs</a>
+          </div>
+        </div>
+        <div>
+          <div class="codepeek">
+            <div class="codepeek-bar"><span class="ball" style="background:#5C7A4E"></span><span class="ball" style="background:#C49A4A"></span><span class="ball" style="background:#A65C4A"></span>getYouTubeInfo()</div>
+            <pre><span class="c1">// fill next empty VC D+1..D+30 slot</span>
+<span class="kw">for</span> (<span class="kw">let</span> col = vcD1Col; col <= vcD30Col; col++) {
+  <span class="kw">if</span> (!data[i][col - <span class="str">1</span>]) {
+    sheet.getRange(i+<span class="str">1</span>, col)
+         .setValue(video.viewCount);
+    <span class="kw">break</span>;
+  }
+}
+<span class="c1">// D+30 always reflects the latest pull</span></pre>
+          </div>
+          <div class="tech-chips">
+            <span class="chip">Apps Script</span>
+            <span class="chip">YouTube Data API v3</span>
+            <span class="chip">Time-driven triggers</span>
+            <span class="chip">PropertiesService</span>
+            <span class="chip">Looker Studio</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULE 3c: DIGITAL PERFORMANCE (INSTAGRAM + TIKTOK) -->
+    <div class="module">
+      <div class="module-head">
+        <div>
+          <span class="module-tag">Vindes Corp · Digital Performance</span>
+          <h3>Instagram &amp; TikTok Performance Dashboard</h3>
+          <div class="module-role">Multi-account social reporting across 5 IG accounts and TikTok, by content pillar</div>
+        </div>
+        <div class="module-stats">
+          <div class="stat"><span class="num">1.5M</span><span class="lbl">TikTok followers</span></div>
+          <div class="stat"><span class="num">1.41M</span><span class="lbl">@vindes.ig followers</span></div>
+          <div class="stat"><span class="num">80M+</span><span class="lbl">IG impressions (Q2 '26)</span></div>
+        </div>
+      </div>
+      <div class="module-body">
+        <div>
+          <div class="col-title">What it does</div>
+          <p>
+            A master dataset that normalizes posts from multiple Instagram accounts
+            (@vindes.ig, @vixtape, and others) and TikTok into one structure, broken
+            down by content pillar — Daily Content, Promo Program, Client, FAM, Vixtape
+            Konekt — so performance can be compared across accounts and formats, not
+            just within one feed.
+          </p>
+          <ul class="feat-list">
+            <li><strong>Content-pillar attribution</strong> — every post is tagged to a pillar (Daily Content, Promo Program, Client work, etc.), letting the dashboard show engagement and follow-rate by pillar instead of just an undifferentiated feed average.</li>
+            <li><strong>Dual engagement-rate view</strong> — tracks Avg. ER by Followers and Avg. ER by Impressions side by side, since a post can look strong on one and weak on the other; useful for telling brand-deal performance apart from organic reach.</li>
+            <li><strong>Same KPI-met logic as YouTube</strong> — Impressions-met and Likes-met per post, rolled into a Both-KPI-Met rate per category, with a trend line over the reporting window — same framework, applied to a completely different platform's data shape.</li>
+            <li><strong>Multi-account aggregation</strong> — TikTok alone covers 170+ posts across Daily Content, Promo Program, and a dedicated show pillar (TA'DAA!), each with its own follower and engagement breakdown inside one dashboard.</li>
+          </ul>
+          <div class="artifacts">
+            <a class="artifact-link" href="#systems">Digital Performance Dashboard PDF</a>
+            <a class="artifact-link" href="#systems">Master Dataset Digital Vindes</a>
+            <a class="artifact-link" href="#systems">Instagram Performance Dashboard</a>
+            <a class="artifact-link" href="#systems">TikTok Performance Dashboard</a>
+          </div>
+        </div>
+        <div>
+          <div class="col-title">Why it's structured this way</div>
+          <p style="font-size:14.5px;">
+            Five-plus IG accounts and TikTok each export differently and use different
+            naming conventions for the same idea (a "category" in one is a "pillar" in
+            another). The master dataset's job is reconciling that into one schema
+            before it ever reaches Looker Studio — otherwise the cross-account
+            comparisons the brand actually wants ("which pillar performs best across
+            all our accounts?") aren't answerable at all.
+          </p>
+          <div class="tech-chips">
+            <span class="chip">Multi-source data modeling</span>
+            <span class="chip">Looker Studio</span>
+            <span class="chip">Cross-account reporting</span>
+            <span class="chip">Content-pillar taxonomy</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULE 3d: SALES & REVENUE DASHBOARD -->
+    <div class="module">
+      <div class="module-head">
+        <div>
+          <span class="module-tag">Vindes Corp · Sales &amp; Revenue</span>
+          <h3>Sales / Project Revenue Dashboard</h3>
+          <div class="module-role">Brand-level revenue tracking against quarterly and annual targets, with live unpaid-client monitoring</div>
+        </div>
+        <div class="module-stats">
+          <div class="stat"><span class="num">Rp39B+</span><span class="lbl">2025 revenue tracked</span></div>
+          <div class="stat"><span class="num">59</span><span class="lbl">Brands (2025)</span></div>
+          <div class="stat"><span class="num">Rp40.5B</span><span class="lbl">2026 target</span></div>
+        </div>
+      </div>
+      <div class="module-body">
+        <div>
+          <div class="col-title">What it does</div>
+          <p>
+            A revenue database that rolls every brand deal up into a gauge-style
+            Target vs. Actual dashboard, sliceable by Industry, Brand, Program, and any
+            date range — quarter, year, or custom — with a running list of who still
+            owes money.
+          </p>
+          <ul class="feat-list">
+            <li><strong>Target-vs-actual at every level</strong> — a single gauge chart shows Revenue against Target with the variance called out (e.g. Rp39.04B vs. Rp36.00B target — +8.4% in 2025), recomputed identically whether you're looking at a full year or a single quarter.</li>
+            <li><strong>Paid / unpaid split with client-level detail</strong> — Paid and Unpaid totals are tracked separately, with an Unpaid Client table naming exactly which brand owes what (e.g. Clear: Rp7.38B outstanding in 2025), so collections isn't guesswork.</li>
+            <li><strong>Program and brand proportion breakdowns</strong> — pie/bar views show which programs (Vindes Sport, Ramadan Bareng Vindes, Customize, etc.) and which brands are actually driving revenue in the period, not just the total.</li>
+            <li><strong>Built to roll forward cleanly</strong> — the same structure carries from Q1 2025 through Q3 2026 in the data, including quarters with partial or no data yet, so the dashboard degrades gracefully instead of breaking when a quarter is incomplete.</li>
+          </ul>
+          <div class="artifacts">
+            <a class="artifact-link" href="#systems">Sales Dashboard PDF</a>
+            <a class="artifact-link" href="#systems">Sales / Project Revenue Database</a>
+          </div>
+        </div>
+        <div>
+          <div class="col-title">Numbers from the dashboard itself</div>
+          <p style="font-size:14.5px;">
+            2025 closed at <strong>Rp39.04B</strong> against a Rp36.00B target (+8.4%).
+            Q1 2025 alone hit Rp13.14B (+29.9% vs. target); by contrast Q2 2025 came in
+            at Rp7.52B, -25.7% under its Rp11.77B target — exactly the kind of
+            quarter-over-quarter swing this dashboard exists to surface early, not at
+            year-end.
+          </p>
+          <div class="tech-chips">
+            <span class="chip">Revenue modeling</span>
+            <span class="chip">Target tracking</span>
+            <span class="chip">Looker Studio</span>
+            <span class="chip">AR / collections view</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODULE 3e: FINANCE & INVOICING (VTMND) -->
+    <div class="module">
+      <div class="module-head">
+        <div>
+          <span class="module-tag">Vindes Corp · Finance &amp; Invoicing</span>
+          <h3>VtmnD Finance &amp; Invoicing System</h3>
+          <div class="module-role">Client intake through approval, invoicing, and payment reconciliation — for two business units with different document rules</div>
+        </div>
+        <div class="module-stats">
+          <div class="stat"><span class="num">6</span><span class="lbl">Linked sheets</span></div>
+          <div class="stat"><span class="num">3</span><span class="lbl">Deal structures handled</span></div>
+          <div class="stat"><span class="num">2</span><span class="lbl">Business units (Vitamin, Vakansi)</span></div>
+        </div>
+      </div>
       <div class="module-body">
         <div>
           <div class="col-title">What it does</div>
@@ -785,7 +1050,58 @@ row[headers[<span class="str">"Official Invoice Number"</span>]] =
         </div>
       </div>
     </div>
-  </section>
+
+    <!-- MODULE 3f: TALENT MANAGEMENT DASHBOARD -->
+    <div class="module">
+      <div class="module-head">
+        <div>
+          <span class="module-tag">Vindes Corp · Talent Management</span>
+          <h3>VtmnD Talent Management Dashboard</h3>
+          <div class="module-role">Revenue and margin reporting per talent/division, separate from the finance system above</div>
+        </div>
+        <div class="module-stats">
+          <div class="stat"><span class="num">Rp3.55B</span><span class="lbl">Revenue (H1 '26)</span></div>
+          <div class="stat"><span class="num">20%</span><span class="lbl">Avg. margin</span></div>
+          <div class="stat"><span class="num">35</span><span class="lbl">Active clients</span></div>
+        </div>
+      </div>
+      <div class="module-body">
+        <div>
+          <div class="col-title">What it does</div>
+          <p>
+            Where the Finance &amp; Invoicing system tracks deals and payments, this
+            dashboard answers a different question for management: which talent or
+            division is actually generating the revenue and margin, and who still owes
+            money against which project.
+          </p>
+          <ul class="feat-list">
+            <li><strong>Per-talent revenue breakdown</strong> — a dedicated drill-down page per talent/division (Sastra S, Ebel Cobra, Fanny Soegi, Production House, Event Organizer, Agency Services) with its own revenue total, AOV, client count, and client-mix pie chart.</li>
+            <li><strong>Margin alongside revenue</strong> — Total Cost and Margin are tracked next to Revenue (e.g. Rp3.55B revenue, Rp2.19B cost, Rp1.36B margin, 20% avg. margin in H1 2026), not just top-line, so a high-revenue talent with thin margin doesn't get mistaken for the best performer.</li>
+            <li><strong>Outstanding-payment list tied to projects</strong> — an Unpaid Client table lists project name, client, invoice date, and amount still owed, drillable by Client and Division, so collections follow-up is a filtered table, not a manual search through invoices.</li>
+            <li><strong>Revenue-source attribution</strong> — breaks total revenue down by source (Production House, Event Organizer, Agency Services) to show which service lines are actually carrying the business in a given period.</li>
+          </ul>
+          <div class="artifacts">
+            <a class="artifact-link" href="#systems">VtmnD Dashboard PDF</a>
+            <a class="artifact-link" href="#systems">VtmnD Project Revenue Database</a>
+          </div>
+        </div>
+        <div>
+          <div class="col-title">Numbers from the dashboard itself</div>
+          <p style="font-size:14.5px;">
+            H1 2026: <strong>Rp3.55B</strong> revenue across 35 clients, Rp1.36B margin
+            (20% avg.) and an AOV of Rp53.82M. PT Vakansi Dedikasi Semesta and TikTok
+            Pte. Ltd alone account for roughly Rp2.6B of that — visible instantly from
+            the client-proportion view rather than pulled manually from raw invoices.
+          </p>
+          <div class="tech-chips">
+            <span class="chip">Margin analysis</span>
+            <span class="chip">Per-talent reporting</span>
+            <span class="chip">Looker Studio</span>
+            <span class="chip">AR / collections view</span>
+          </div>
+        </div>
+      </div>
+    </div>
 
   <!-- ============ STACK ============ -->
   <section id="stack">
@@ -801,8 +1117,10 @@ row[headers[<span class="str">"Official Invoice Number"</span>]] =
         <ul>
           <li>Google Apps Script</li>
           <li>onEdit / onOpen triggers</li>
+          <li>Time-driven triggers</li>
           <li>Custom HTML sidebars</li>
           <li>GmailApp / DriveApp</li>
+          <li>YouTube Data API v3</li>
         </ul>
       </div>
       <div class="skillcell">
@@ -811,6 +1129,7 @@ row[headers[<span class="str">"Official Invoice Number"</span>]] =
           <li>BOM / MRP modeling</li>
           <li>State-machine workflows</li>
           <li>Relational data design</li>
+          <li>Cross-platform KPI design</li>
           <li>Validation &amp; guardrails</li>
         </ul>
       </div>
@@ -820,6 +1139,7 @@ row[headers[<span class="str">"Official Invoice Number"</span>]] =
           <li>Google Looker Studio</li>
           <li>Forecasting (demand rate)</li>
           <li>Inventory health scoring</li>
+          <li>Social/content KPI tracking</li>
           <li>SQL (intermediate)</li>
         </ul>
       </div>
@@ -858,7 +1178,7 @@ row[headers[<span class="str">"Official Invoice Number"</span>]] =
       <div class="trow">
         <div class="when">Jan 2024 — Present</div>
         <div class="role">Talent Manager → Systems &amp; Automation</div>
-        <div class="org">Vindes Corp — built the cross-divisional dashboard suite and the full finance/invoicing system above</div>
+        <div class="org">Vindes Corp — designed and built the full reporting architecture: YouTube program automation, Instagram/TikTok performance dashboards, sales &amp; revenue tracking, talent management reporting, and the finance/invoicing system (VtmnD) — six systems, solo</div>
       </div>
       <div class="trow">
         <div class="when">Jan 2023 — Present</div>
